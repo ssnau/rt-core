@@ -1,6 +1,6 @@
 {
   "name": "rt-core",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "rt core modules",
   "main": "index.js",
   "directories": {
