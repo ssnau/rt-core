@@ -1,0 +1,26 @@
+// Use this file as a starting point for your project's .eslintrc.
+// Copy this file, and add rule overrides as needed.
+{
+  "extends": "angular",
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true,
+    "mocha": true,
+    "jquery": true,
+    "amd": true,
+    "jasmine": true
+  },
+  "ecmaFeatures": {
+    "modules": true
+  },
+  "rules": {
+    "angular/ng_document_service": 0,
+    "angular/ng_window_service": 0,
+    "angular/ng_module_setter": 0,
+    "angular/ng_module_getter": 0,
+    "angular/ng_di": 0,
+    "angular/ng_controller_as": 0,
+    "angular/ng_controller_as_vm": 0
+  }
+}

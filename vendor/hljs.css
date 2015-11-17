@@ -1,0 +1,195 @@
+.code-highlight {
+    background-color: transparent;
+    padding-top: 1px;
+    position: relative;
+    text-rendering: geometricPrecision;
+}
+.code-highlight pre, .code-highlight code {
+    font-family: Consolas, "Liberation Mono", Menlo, Monaco, Courier, monospace;
+}
+.code-highlight pre {
+    margin: 6px 0;
+    border: 1px solid #eee;
+    padding: 6px 10px;
+    overflow: auto;
+    border-radius: 2px;
+    background-color: #f8f8f9;
+    line-height: 19px;
+    font-size: 13px;
+    white-space: pre;
+}
+.code-highlight>ul {
+    margin-left: 0px;
+    padding-left: 0px;
+}
+.code-highlight>ul>li {
+    display: inline-block;
+    border-radius: 10px;
+    padding: 10px;
+    cursor: pointer;
+    font-family: 'Source Sans Pro', 'Lucida Grande', sans-serif;
+}
+.code-highlight li.__selected {
+    background: #333;
+    color: #eee;
+}
+/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+
+*/
+
+.code-highlight .hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #f0f0f0;
+  -webkit-text-size-adjust: none;
+}
+
+.code-highlight .hljs,
+.code-highlight .hljs-subst,
+.code-highlight .hljs-tag .hljs-title,
+.code-highlight .nginx .hljs-title {
+  color: #A52A2A; /* brown */
+}
+
+.code-highlight .hljs-tag .hljs-attribute {
+    color: #228B22; /* forestgreen */
+}
+
+.code-highlight .hljs-string,
+.code-highlight .hljs-title,
+.code-highlight .hljs-constant,
+.code-highlight .hljs-parent,
+.code-highlight .hljs-tag .hljs-value,
+.code-highlight .hljs-rule .hljs-value,
+.code-highlight .hljs-preprocessor,
+.code-highlight .hljs-pragma,
+.code-highlight .hljs-name,
+.code-highlight .haml .hljs-symbol,
+.code-highlight .ruby .hljs-symbol,
+.code-highlight .ruby .hljs-symbol .hljs-string,
+.code-highlight .hljs-template_tag,
+.code-highlight .django .hljs-variable,
+.code-highlight .smalltalk .hljs-class,
+.code-highlight .hljs-addition,
+.code-highlight .hljs-flow,
+.code-highlight .hljs-stream,
+.code-highlight .bash .hljs-variable,
+.code-highlight .pf .hljs-variable,
+.code-highlight .apache .hljs-tag,
+.code-highlight .apache .hljs-cbracket,
+.code-highlight .tex .hljs-command,
+.code-highlight .tex .hljs-special,
+.code-highlight .erlang_repl .hljs-function_or_atom,
+.code-highlight .asciidoc .hljs-header,
+.code-highlight .markdown .hljs-header,
+.code-highlight .coffeescript .hljs-attribute,
+.code-highlight .tp .hljs-variable {
+  color: #800;
+}
+
+.code-highlight .smartquote,
+.code-highlight .hljs-comment,
+.code-highlight .hljs-annotation,
+.code-highlight .diff .hljs-header,
+.code-highlight .hljs-chunk,
+.code-highlight .asciidoc .hljs-blockquote,
+.code-highlight .markdown .hljs-blockquote {
+  color: #888;
+}
+
+.code-highlight .hljs-number,
+.code-highlight .hljs-date,
+.code-highlight .hljs-regexp,
+.code-highlight .hljs-literal,
+.code-highlight .hljs-hexcolor,
+.code-highlight .smalltalk .hljs-symbol,
+.code-highlight .smalltalk .hljs-char,
+.code-highlight .go .hljs-constant,
+.code-highlight .hljs-change,
+.code-highlight .lasso .hljs-variable,
+.code-highlight .makefile .hljs-variable,
+.code-highlight .asciidoc .hljs-bullet,
+.code-highlight .markdown .hljs-bullet,
+.code-highlight .asciidoc .hljs-link_url,
+.code-highlight .markdown .hljs-link_url {
+  color: #080;
+}
+
+.code-highlight .hljs-label,
+.code-highlight .ruby .hljs-string,
+.code-highlight .hljs-decorator,
+.code-highlight .hljs-filter .hljs-argument,
+.code-highlight .hljs-localvars,
+.code-highlight .hljs-array,
+.code-highlight .hljs-attr_selector,
+.code-highlight .hljs-important,
+.code-highlight .hljs-pseudo,
+.code-highlight .hljs-pi,
+.code-highlight .haml .hljs-bullet,
+.code-highlight .hljs-doctype,
+.code-highlight .hljs-deletion,
+.code-highlight .hljs-envvar,
+.code-highlight .hljs-shebang,
+.code-highlight .apache .hljs-sqbracket,
+.code-highlight .nginx .hljs-built_in,
+.code-highlight .tex .hljs-formula,
+.code-highlight .erlang_repl .hljs-reserved,
+.code-highlight .hljs-prompt,
+.code-highlight .asciidoc .hljs-link_label,
+.code-highlight .markdown .hljs-link_label,
+.code-highlight .vhdl .hljs-attribute,
+.code-highlight .clojure .hljs-attribute,
+.code-highlight .asciidoc .hljs-attribute,
+.code-highlight .lasso .hljs-attribute,
+.code-highlight .coffeescript .hljs-property,
+.code-highlight .hljs-phony {
+  color: #88f;
+}
+
+.code-highlight .hljs-keyword,
+.code-highlight .hljs-id,
+.code-highlight .hljs-title,
+.code-highlight .hljs-built_in,
+.code-highlight .css .hljs-tag,
+.code-highlight .hljs-doctag,
+.code-highlight .smalltalk .hljs-class,
+.code-highlight .hljs-winutils,
+.code-highlight .bash .hljs-variable,
+.code-highlight .pf .hljs-variable,
+.code-highlight .apache .hljs-tag,
+.code-highlight .hljs-type,
+.code-highlight .hljs-typename,
+.code-highlight .tex .hljs-command,
+.code-highlight .asciidoc .hljs-strong,
+.code-highlight .markdown .hljs-strong,
+.code-highlight .hljs-request,
+.code-highlight .hljs-status,
+.code-highlight .tp .hljs-data,
+.code-highlight .tp .hljs-io {
+  font-weight: bold;
+  color: #008B8B;
+}
+
+.code-highlight .asciidoc .hljs-emphasis,
+.code-highlight .markdown .hljs-emphasis,
+.code-highlight .tp .hljs-units {
+  font-style: italic;
+}
+
+.code-highlight .nginx .hljs-built_in {
+  font-weight: normal;
+}
+
+.code-highlight .coffeescript .javascript,
+.code-highlight .javascript .xml,
+.code-highlight .lasso .markup,
+.code-highlight .tex .hljs-formula,
+.code-highlight .xml .javascript,
+.code-highlight .xml .vbscript,
+.code-highlight .xml .css,
+.code-highlight .xml .hljs-cdata {
+  opacity: 0.5;
+}
