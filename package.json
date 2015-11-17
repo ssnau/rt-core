@@ -1,5 +1,5 @@
 {
-  "name": "@mtfe/rt",
+  "name": "rt-core",
   "version": "0.3.0",
   "description": "",
   "main": "index.js",
