@@ -1,6 +1,0 @@
-node_modules/*.js
-node_modules/**/*.js
-*.json
-gulpfile.js
-lib
-build

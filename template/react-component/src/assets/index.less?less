@@ -1,8 +1,0 @@
-@base: olive;
-.<$$& appClassName $$> {
-    color: @base;
-    display: flex;
-    h1 {
-      font-size: 20px;
-    }
-}
