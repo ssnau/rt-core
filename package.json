@@ -7,7 +7,10 @@
     "test": "test"
   },
   "scripts": {
-    "test": "mocha"
+    "build": "babel lib --out-dir dist",
+    "test": "mocha --compilers js:babel/register",
+    "testw": "mocha --compilers js:babel/register --watch",
+    "watch": "babel  --watch lib --out-dir dist"
   },
   "dependencies": {
     "babel": "^5.8.34",
