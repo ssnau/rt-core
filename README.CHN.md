@@ -35,9 +35,9 @@ rtCore.server({
 - HTML构建
 
 ```js
-require('babel/register');       // 必须添加
+require('babel/polyfill');       // 必须添加
 
-const rtCore = require('../');
+const rtCore = require('rt-core');
 
 rtCore.build({
   dir: 'examples/examples',
