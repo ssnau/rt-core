@@ -1,7 +1,18 @@
-// 模板引擎，仅支持<$$name$$>，不与现有模板引擎有语法冲突，适合用来做project template
 'use strict';
 
-var Mustache = require('mustache');
-module.exports = function tpl(string, data) {
-  return Mustache.render('{{=<$$ $$>=}}' + string, data);
-};
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
+exports['default'] = tpl;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _mustache = require('mustache');
+
+var _mustache2 = _interopRequireDefault(_mustache);
+
+function tpl(string, data) {
+  return _mustache2['default'].render('{{=<$$ $$>=}}' + string, data);
+}
+
+module.exports = exports['default'];

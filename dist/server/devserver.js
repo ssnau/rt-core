@@ -1,24 +1,49 @@
 'use strict';
 
-var _ = require('lodash');
-var path = require('path');
-var glob = require('glob');
-var r = function r(x) {
-  return typeof x.map === 'function' ? x.map(function (f) {
-    return require.resolve(f);
-  }) : require.resolve(x);
-};
+Object.defineProperty(exports, '__esModule', {
+  value: true
+});
 
-module.exports = {
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+
+var _lodash = require('lodash');
+
+var _lodash2 = _interopRequireDefault(_lodash);
+
+var _path = require('path');
+
+var _path2 = _interopRequireDefault(_path);
+
+var _glob = require('glob');
+
+var _glob2 = _interopRequireDefault(_glob);
+
+var _webpack = require('webpack');
+
+var _webpack2 = _interopRequireDefault(_webpack);
+
+var _webpackDevMiddleware = require('webpack-dev-middleware');
+
+var _webpackDevMiddleware2 = _interopRequireDefault(_webpackDevMiddleware);
+
+var _webpackHotMiddleware = require('webpack-hot-middleware');
+
+var _webpackHotMiddleware2 = _interopRequireDefault(_webpackHotMiddleware);
+
+var _webpackconfig = require('../webpackconfig');
+
+var _webpackconfig2 = _interopRequireDefault(_webpackconfig);
+
+exports['default'] = {
   getEntries: function getEntries(dir) {
     var entries = {};
-    glob.sync(dir + "/**").filter(function (f) {
+    _glob2['default'].sync(dir + '/**').filter(function (f) {
       return !/node_modules/.test(f);
     }).filter(function (f) {
       return (/(js|jsx)$/.test(f)
       );
     }).forEach(function (f) {
-      var name = path.relative(dir, f).replace(/.(js|jsx)$/, '');
+      var name = _path2['default'].relative(dir, f).replace(/.(js|jsx)$/, '');
       entries[name] = f;
     });
     return entries;
@@ -35,17 +60,8 @@ module.exports = {
 
     var pkgname = pkg.name;
     var alias = {};
-    alias[pkgname + "$"] = path.join(root, 'src');
+    alias[pkgname + '$'] = _path2['default'].join(root, 'src');
     alias[pkgname] = root;
-    var r = function r(x) {
-      return x.map(function (f) {
-        return require.resolve(f);
-      });
-    };
-
-    var express = require('express');
-    var webpack = require('webpack');
-    var app = express();
 
     var hotPrefix = [require.resolve('webpack-hot-middleware/client') + ('?path=' + this.baseURL + '/__webpack_hmr')];
     var entries = this.getEntries(tpldir);
@@ -53,7 +69,7 @@ module.exports = {
       entries[key] = hotPrefix.concat(entries[key]);
     });
 
-    var webpackConfig = require('../webpackconfig')({
+    var webpackConfig = (0, _webpackconfig2['default'])({
       babelQuery: rtconfig.babelQuery || {}
     });
     webpackConfig.entry = entries;
@@ -61,19 +77,20 @@ module.exports = {
     // prefix with "/" to make it as absolute path for memfs
     webpackConfig.output.path = '/' + webpackConfig.output.path;
     webpackConfig.output.publicPath = this.baseURL + webpackConfig.output.path;
-    webpackConfig.plugins = [new webpack.HotModuleReplacementPlugin(), new webpack.NoErrorsPlugin()];
-    webpackConfig.resolve = _.assign({}, webpackConfig.resolve || {}, { alias: alias });
+    webpackConfig.plugins = [new _webpack2['default'].HotModuleReplacementPlugin(), new _webpack2['default'].NoErrorsPlugin()];
+    webpackConfig.resolve = _lodash2['default'].assign({}, webpackConfig.resolve || {}, { alias: alias });
 
-    var compiler = webpack(webpackConfig);
+    var compiler = (0, _webpack2['default'])(webpackConfig);
 
-    return [require('webpack-dev-middleware')(compiler, {
+    return [(0, _webpackDevMiddleware2['default'])(compiler, {
       noInfo: true,
       publicPath: webpackConfig.output.publicPath
-    }), require('webpack-hot-middleware')(compiler)];
+    }), (0, _webpackHotMiddleware2['default'])(compiler)];
   },
   getURL: function getURL(file) {
-    var p = "/static/" + path.relative(this.tpldir, file);
+    var p = '/static/' + _path2['default'].relative(this.tpldir, file);
     p = p.replace('//', '/').replace(/.jsx$/, '.js');
     return this.baseURL + p;
   }
 };
+module.exports = exports['default'];

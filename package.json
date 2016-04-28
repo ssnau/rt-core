@@ -1,8 +1,13 @@
 {
   "name": "rt-core",
   "version": "0.3.3",
-  "description": "rt core modules",
+  "description": "The core functionalities for Rabbit Tools",
   "main": "index.js",
+  "files": [
+    "dist",
+    "lib",
+    "vendor"
+  ],
   "directories": {
     "test": "test"
   },
@@ -10,6 +15,7 @@
     "build": "babel lib --out-dir dist",
     "test": "mocha --compilers js:babel/register",
     "testw": "mocha --compilers js:babel/register --watch",
+    "eslint": "./node_modules/eslint/bin/eslint.js ./lib/",
     "watch": "babel  --watch lib --out-dir dist"
   },
   "dependencies": {
@@ -37,7 +43,18 @@
     "webpack-dev-middleware": "^1.2.0"
   },
   "devDependencies": {
-    "mocha": "^2.3.4"
+    "babel-eslint": "^6.0.4",
+    "babel-plugin-react-transform": "^1.1.1",
+    "eslint": "^2.8.0",
+    "eslint-config-airbnb": "^8.0.0",
+    "eslint-plugin-import": "^1.6.0",
+    "eslint-plugin-jsx-a11y": "^1.0.3",
+    "eslint-plugin-promise": "^1.1.0",
+    "eslint-plugin-react": "^5.0.1",
+    "mocha": "^2.3.4",
+    "react-transform-catch-errors": "^1.0.2",
+    "react-transform-hmr": "^1.0.4",
+    "redbox-react": "^1.2.3"
   },
   "repository": {
     "type": "git",

@@ -24,14 +24,14 @@
 }
 .code-highlight>ul>li {
     display: inline-block;
-    border-radius: 10px;
     padding: 10px;
     cursor: pointer;
     font-family: 'Source Sans Pro', 'Lucida Grande', sans-serif;
 }
 .code-highlight li.__selected {
-    background: #333;
+    background: #008B8B;
     color: #eee;
+    transition: color .3s ease;
 }
 /*
 
