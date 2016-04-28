@@ -1,0 +1,42 @@
+{
+    "extends": "airbnb",
+    "parser": "babel-eslint",
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    },
+    "rules": {
+    "prefer-template": 0,
+    "space-before-function-paren": 0,
+    "no-unused-expressions": [
+      2,
+      {
+        "allowShortCircuit": true,
+        "allowTernary": true
+      }
+    ],
+    "prefer-rest-params": 0,
+    "no-confusing-arrow": [
+      "error",
+      {
+        "allowParens": true
+      }
+    ],
+    "consistent-return": 0,
+    "no-case-declarations": 0,
+    "no-unneeded-ternary": 0,
+    "react/sort-comp": 0,
+    "react/jsx-no-bind": [
+      2,
+      {
+        "ignoreRefs": true,
+        "allowArrowFunctions": true,
+        "allowBind": true
+      }
+    ],
+    "react/prefer-stateless-function": 0,
+    "react/jsx-boolean-value": [
+      2,
+      "always"
+    ]
+  }
+}

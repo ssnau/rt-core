@@ -1,12 +1,11 @@
-RT-CORE
------
+# RT-CORE
 
-rt-core provide the core functionalities for rt toolsrt-core provide the core functionalities for rt tools.
+[![NPM Version](http://img.shields.io/npm/v/rt-core.svg?style=flat)](https://www.npmjs.org/package/rt-core)
+[![NPM Downloads](https://img.shields.io/npm/dm/rt-core.svg?style=flat)](https://www.npmjs.org/package/rt-core)
 
-Develop
------
+The core functionalities for Rabbit Tools.
 
-1. clone the repo
-2. npm link
-3. npm run watch
-4. enjoy develop
+
+## License
+
+`rt-core` is released under the MIT license.
