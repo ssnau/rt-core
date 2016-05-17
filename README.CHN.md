@@ -10,7 +10,7 @@ The core functionalities for Rabbit Tools.
 - 安装相关`npm`依赖
 
 ```bash
-npm install --save-dev babel-plugin-react-transform@1.1.1
+npm install --save-dev babel-plugin-react-transform
 npm install --save-dev react-transform-catch-errors
 npm install --save-dev react-transform-hmr
 npm install --save-dev redbox-react
@@ -23,26 +23,28 @@ npm install --save-dev redbox-react
 - 开发服务（HMR功能）
 
 ```js
-const rtCore = require('rt-core');
+require('babel-polyfill')
+
+const rtCore = require('rt-core')
 
 rtCore.server({
   dir: 'examples/examples',
   host: 'http://localhost',
   port: 8012,
-});
+})
 ```
 
 - HTML构建
 
 ```js
-require('babel/polyfill');       // 必须添加
+require('babel/polyfill')
 
 const rtCore = require('rt-core');
 
 rtCore.build({
   dir: 'examples/examples',
   builddir: 'examples/build',
-});
+})
 ```
 
 请参考[examples](examples)。

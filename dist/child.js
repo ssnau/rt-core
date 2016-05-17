@@ -1,10 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _child_process = require('child_process');
 
@@ -14,12 +12,14 @@ var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
 
-var exec = _child_process2['default'].exec;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports['default'] = {
+var exec = _child_process2.default.exec;
+
+exports.default = {
   /* 一个拥有promise风格的exec,返回{code, out} */
   exec: function _exec(command, _options) {
-    var options = _lodash2['default'].merge({
+    var options = _lodash2.default.merge({
       $through: true }, // 是否将stdout, stderr打到控制台
     _options || {});
 
@@ -48,4 +48,3 @@ exports['default'] = {
     });
   }
 };
-module.exports = exports['default'];

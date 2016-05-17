@@ -1,10 +1,8 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var _fs = require('fs');
 
@@ -26,9 +24,9 @@ var _uglifyJs = require('uglify-js');
 
 var _uglifyJs2 = _interopRequireDefault(_uglifyJs);
 
-var _highlightJs = require('highlight.js');
+var _highlight = require('highlight.js');
 
-var _highlightJs2 = _interopRequireDefault(_highlightJs);
+var _highlight2 = _interopRequireDefault(_highlight);
 
 var _child = require('../child');
 
@@ -46,162 +44,177 @@ var _html = require('../html');
 
 var _html2 = _interopRequireDefault(_html);
 
-var getNodeProjectRoot = _common2['default'].getNodeProjectRoot;
-var getRc = _common2['default'].getRc;
-var safe = _common2['default'].safe;
-var example = _html2['default'].example;
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports['default'] = function build(_config) {
-  var cwd, root, config, exname, builddir, pkg, exdir, getExamples, filename, escapeScript, minifyScript, basedir, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step;
+function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, arguments); return new Promise(function (resolve, reject) { function step(key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { return Promise.resolve(value).then(function (value) { return step("next", value); }, function (err) { return step("throw", err); }); } } return step("next"); }); }; }
 
-  return regeneratorRuntime.async(function build$(context$1$0) {
+var getNodeProjectRoot = _common2.default.getNodeProjectRoot;
+var getRc = _common2.default.getRc;
+var safe = _common2.default.safe;
+var example = _html2.default.example;
+
+exports.default = function () {
+  var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(_config) {
     var _this = this;
 
-    while (1) switch (context$1$0.prev = context$1$0.next) {
-      case 0:
-        minifyScript = function minifyScript(content) {
-          return _uglifyJs2['default'].minify(content, { fromString: true });
-        };
+    var cwd, root, config, exname, builddir, pkg, exdir, getExamples, filename, escapeScript, minifyScript, basedir, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step;
 
-        escapeScript = function escapeScript(content) {
-          return content.replace(/<script>/g, '\\u003cscript>').replace(/<\/script>/g, '\\u003c/script>');
-        };
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            minifyScript = function minifyScript(content) {
+              return _uglifyJs2.default.minify(content, { fromString: true });
+            };
 
-        filename = function filename(p) {
-          return p.replace(/\.[^/.]+$/, '').replace(/^.*\//, '');
-        };
+            escapeScript = function escapeScript(content) {
+              return content.replace(/<script>/g, '\\u003cscript>').replace(/<\/script>/g, '\\u003c/script>');
+            };
 
-        getExamples = function getExamples() {
-          var files = _glob2['default'].sync(exdir + '/**').filter(function (f) {
-            return (/\.(js|jsx)$/.test(f)
-            );
-          });
-          return files;
-        };
+            filename = function filename(p) {
+              return p.replace(/\.[^/.]+$/, '').replace(/^.*\//, '');
+            };
 
-        cwd = process.cwd();
-        root = getNodeProjectRoot(cwd);
-        config = _lodash2['default'].merge(getRc(root), _config);
-        exname = config.dir || 'examples';
-        builddir = config.builddir || 'build';
-        pkg = require(_path2['default'].join(root, 'package.json'));
-        exdir = _path2['default'].join(root, exname);
-        basedir = _path2['default'].join(root, builddir, 'examples');
-        context$1$0.next = 14;
-        return regeneratorRuntime.awrap(_child2['default'].exec('mkdir -p ' + basedir, { $through: false, $silent: true }));
+            getExamples = function getExamples() {
+              var files = _glob2.default.sync(exdir + '/**').filter(function (f) {
+                return (/\.(js|jsx)$/.test(f)
+                );
+              });
+              return files;
+            };
 
-      case 14:
-        _iteratorNormalCompletion = true;
-        _didIteratorError = false;
-        _iteratorError = undefined;
-        context$1$0.prev = 17;
+            cwd = process.cwd();
+            root = getNodeProjectRoot(cwd);
+            config = _lodash2.default.merge(getRc(root), _config);
 
-        _loop = function callee$1$0() {
-          var file, scriptcode, polyfillcode, hljscss, contentHTML, htmlcontent, df;
-          return regeneratorRuntime.async(function callee$1$0$(context$2$0) {
-            while (1) switch (context$2$0.prev = context$2$0.next) {
-              case 0:
-                file = _step.value;
-                context$2$0.next = 3;
-                return regeneratorRuntime.awrap((0, _packcode2['default'])(file, pkg, root));
+            // consts
 
-              case 3:
-                scriptcode = context$2$0.sent;
-                polyfillcode = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../../vendor/browser-polyfill.js'), 'utf-8');
-                hljscss = _fs2['default'].readFileSync(_path2['default'].join(__dirname, '../../vendor/hljs.css'), 'utf-8');
-                contentHTML = undefined;
+            exname = config.dir || 'examples';
+            builddir = config.builddir || 'build';
 
-                /* eslint-disable no-unused-vars, no-return-assign */
-                safe(function (__) {
-                  return contentHTML = _fs2['default'].readFileSync(file.replace(/(js|jsx)$/, 'html'), 'utf-8');
-                });
-                htmlcontent = example({
-                  contentHTML: contentHTML,
-                  pkg: pkg,
-                  pagename: filename(file),
-                  sourcecode: _highlightJs2['default'].highlight('javascript', _fs2['default'].readFileSync(file, 'utf-8')).value,
-                  styles: [hljscss],
-                  scripts: [{ content: escapeScript(minifyScript(polyfillcode).code) }, { content: escapeScript(minifyScript(scriptcode).code) }]
-                });
-                df = _path2['default'].join(basedir, filename(file) + '.html');
+            /* eslint-disable global-require */
 
-                /* eslint-disable no-console */
-                console.log('writing file ' + df);
+            pkg = require(_path2.default.join(root, 'package.json'));
 
-                _fs2['default'].writeFileSync(df, htmlcontent, { encoding: 'utf-8' });
+            // var fs   = require('fs');
 
-              case 12:
-              case 'end':
-                return context$2$0.stop();
+            exdir = _path2.default.join(root, exname);
+
+
+            // try to make the folder first
+            basedir = _path2.default.join(root, builddir, 'examples');
+            _context2.next = 14;
+            return _child2.default.exec('mkdir -p ' + basedir, { $through: false, $silent: true });
+
+          case 14:
+
+            /* eslint-disable prefer-const */
+            _iteratorNormalCompletion = true;
+            _didIteratorError = false;
+            _iteratorError = undefined;
+            _context2.prev = 17;
+            _loop = regeneratorRuntime.mark(function _callee() {
+              var file, scriptcode, polyfillcode, hljscss, contentHTML, htmlcontent, df;
+              return regeneratorRuntime.wrap(function _callee$(_context) {
+                while (1) {
+                  switch (_context.prev = _context.next) {
+                    case 0:
+                      file = _step.value;
+                      _context.next = 3;
+                      return (0, _packcode2.default)(file, pkg, root);
+
+                    case 3:
+                      scriptcode = _context.sent;
+                      polyfillcode = _fs2.default.readFileSync(_path2.default.join(__dirname, '../../vendor/browser-polyfill.js'), 'utf-8');
+                      hljscss = _fs2.default.readFileSync(_path2.default.join(__dirname, '../../vendor/hljs.css'), 'utf-8');
+                      contentHTML = void 0;
+                      /* eslint-disable no-unused-vars, no-return-assign */
+
+                      safe(function (__) {
+                        return contentHTML = _fs2.default.readFileSync(file.replace(/(js|jsx)$/, 'html'), 'utf-8');
+                      });
+                      htmlcontent = example({
+                        contentHTML: contentHTML,
+                        pkg: pkg,
+                        pagename: filename(file),
+                        sourcecode: _highlight2.default.highlight('javascript', _fs2.default.readFileSync(file, 'utf-8')).value,
+                        styles: [hljscss],
+                        scripts: [{ content: escapeScript(minifyScript(polyfillcode).code) }, { content: escapeScript(minifyScript(scriptcode).code) }]
+                      });
+                      df = _path2.default.join(basedir, filename(file) + '.html');
+                      /* eslint-disable no-console */
+
+                      console.log('writing file ' + df);
+
+                      _fs2.default.writeFileSync(df, htmlcontent, { encoding: 'utf-8' });
+
+                    case 12:
+                    case 'end':
+                      return _context.stop();
+                  }
+                }
+              }, _callee, _this);
+            });
+            _iterator = getExamples()[Symbol.iterator]();
+
+          case 20:
+            if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
+              _context2.next = 25;
+              break;
             }
-          }, null, _this);
-        };
 
-        _iterator = getExamples()[Symbol.iterator]();
+            return _context2.delegateYield(_loop(), 't0', 22);
 
-      case 20:
-        if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-          context$1$0.next = 26;
-          break;
+          case 22:
+            _iteratorNormalCompletion = true;
+            _context2.next = 20;
+            break;
+
+          case 25:
+            _context2.next = 31;
+            break;
+
+          case 27:
+            _context2.prev = 27;
+            _context2.t1 = _context2['catch'](17);
+            _didIteratorError = true;
+            _iteratorError = _context2.t1;
+
+          case 31:
+            _context2.prev = 31;
+            _context2.prev = 32;
+
+            if (!_iteratorNormalCompletion && _iterator.return) {
+              _iterator.return();
+            }
+
+          case 34:
+            _context2.prev = 34;
+
+            if (!_didIteratorError) {
+              _context2.next = 37;
+              break;
+            }
+
+            throw _iteratorError;
+
+          case 37:
+            return _context2.finish(34);
+
+          case 38:
+            return _context2.finish(31);
+
+          case 39:
+          case 'end':
+            return _context2.stop();
         }
+      }
+    }, _callee2, this, [[17, 27, 31, 39], [32,, 34, 38]]);
+  }));
 
-        context$1$0.next = 23;
-        return regeneratorRuntime.awrap(_loop());
+  function build(_x) {
+    return ref.apply(this, arguments);
+  }
 
-      case 23:
-        _iteratorNormalCompletion = true;
-        context$1$0.next = 20;
-        break;
-
-      case 26:
-        context$1$0.next = 32;
-        break;
-
-      case 28:
-        context$1$0.prev = 28;
-        context$1$0.t0 = context$1$0['catch'](17);
-        _didIteratorError = true;
-        _iteratorError = context$1$0.t0;
-
-      case 32:
-        context$1$0.prev = 32;
-        context$1$0.prev = 33;
-
-        if (!_iteratorNormalCompletion && _iterator['return']) {
-          _iterator['return']();
-        }
-
-      case 35:
-        context$1$0.prev = 35;
-
-        if (!_didIteratorError) {
-          context$1$0.next = 38;
-          break;
-        }
-
-        throw _iteratorError;
-
-      case 38:
-        return context$1$0.finish(35);
-
-      case 39:
-        return context$1$0.finish(32);
-
-      case 40:
-      case 'end':
-        return context$1$0.stop();
-    }
-  }, null, this, [[17, 28, 32, 40], [33,, 35, 39]]);
-};
-
-module.exports = exports['default'];
-
-// consts
-
-/* eslint-disable global-require */
-
-// var fs   = require('fs');
-
-// try to make the folder first
-
-/* eslint-disable prefer-const */
+  return build;
+}();
