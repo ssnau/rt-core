@@ -1,9 +1,9 @@
 'use strict';
 
-Object.defineProperty(exports, '__esModule', {
+Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports['default'] = getWebpackConfig;
+exports.default = getWebpackConfig;
 function r(x) {
   return typeof x.map === 'function' ? x.map(function (f) {
     return require.resolve(f);
@@ -54,5 +54,3 @@ function getWebpackConfig() {
   };
   return webpackConfig;
 }
-
-module.exports = exports['default'];
