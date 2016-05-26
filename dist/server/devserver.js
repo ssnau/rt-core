@@ -35,17 +35,36 @@ var _webpackconfig2 = _interopRequireDefault(_webpackconfig);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = {
-  getEntries: function getEntries(dir) {
+  getEntries: function getEntries(dir, items) {
     var entries = {};
-    _glob2.default.sync(dir + '/**').filter(function (f) {
-      return !/node_modules/.test(f);
-    }).filter(function (f) {
-      return (/(js|jsx)$/.test(f)
-      );
-    }).forEach(function (f) {
-      var name = _path2.default.relative(dir, f).replace(/.(js|jsx)$/, '');
-      entries[name] = f;
-    });
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var item = _step.value;
+
+        item.files.forEach(function (f) {
+          var name = _path2.default.relative(dir, f).replace(/.(js|jsx)$/, '').replace('//', '/');
+          entries[name] = f;
+        });
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
+
     return entries;
   },
   getMiddlewares: function getMiddlewares(_ref) {
@@ -54,6 +73,8 @@ exports.default = {
     var port = _ref.port;
     var root = _ref.root;
     var rtconfig = _ref.rtconfig;
+    var _ref$items = _ref.items;
+    var items = _ref$items === undefined ? [] : _ref$items;
 
     this.baseURL = 'http://localhost:' + port;
     this.tpldir = tpldir;
@@ -62,9 +83,34 @@ exports.default = {
     var alias = {};
     alias[pkgname + '$'] = _path2.default.join(root, 'src');
     alias[pkgname] = root;
+    var _iteratorNormalCompletion2 = true;
+    var _didIteratorError2 = false;
+    var _iteratorError2 = undefined;
+
+    try {
+      for (var _iterator2 = items[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        var item = _step2.value;
+
+        alias[item.name + '$'] = _path2.default.join(item.path, 'src');
+        alias[item.name] = item.path;
+      }
+    } catch (err) {
+      _didIteratorError2 = true;
+      _iteratorError2 = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion2 && _iterator2.return) {
+          _iterator2.return();
+        }
+      } finally {
+        if (_didIteratorError2) {
+          throw _iteratorError2;
+        }
+      }
+    }
 
     var hotPrefix = [require.resolve('webpack-hot-middleware/client') + ('?path=' + this.baseURL + '/__webpack_hmr')];
-    var entries = this.getEntries(tpldir);
+    var entries = this.getEntries(tpldir, items);
     Object.keys(entries).forEach(function (key) {
       entries[key] = hotPrefix.concat(entries[key]);
     });
@@ -88,8 +134,8 @@ exports.default = {
     }), (0, _webpackHotMiddleware2.default)(compiler)];
   },
   getURL: function getURL(file) {
-    var p = '/static/' + _path2.default.relative(this.tpldir, file);
+    var p = '' + _path2.default.relative(this.tpldir, file);
     p = p.replace('//', '/').replace(/.jsx$/, '.js');
-    return this.baseURL + p;
+    return this.baseURL + '/static/' + p;
   }
 };

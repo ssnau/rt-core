@@ -24,6 +24,10 @@ var _Wrapper = require('./components/Wrapper');
 
 var _Wrapper2 = _interopRequireDefault(_Wrapper);
 
+var _mustache = require('mustache');
+
+var _mustache2 = _interopRequireDefault(_mustache);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function html(content, opt) {
@@ -32,6 +36,9 @@ function html(content, opt) {
   return '<!DOCTYPE html>\n    <html>\n    <head>\n        <meta charset="utf-8">\n        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>\n        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>\n        <title>' + (props.title || 'component demo') + '</title>\n    </head>\n    <body>\n      ' + _server2.default.renderToStaticMarkup(_react2.default.createElement(_Wrapper2.default, props)) + '\n    </body>\n    </html>';
 }
 
+function template() {
+  return '<!DOCTYPE html>\n    <html>\n    <head>\n        <meta charset="utf-8">\n        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=0"/>\n        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>\n    </head>\n    <body>\n       {{> content}}\n    </body>\n    </html>';
+}
 exports.default = {
   example: function example(opt) {
     var props = opt || {};
@@ -42,5 +49,11 @@ exports.default = {
     var props = opt || {};
     var content = _server2.default.renderToStaticMarkup(_react2.default.createElement(_DemoList2.default, props));
     return html(content, props);
+  },
+  group: function group(opt) {
+    var views = opt.views;
+    var partials = opt.partials; //  数据
+
+    return _mustache2.default.render(template(), views, partials);
   }
 };

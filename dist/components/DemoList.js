@@ -30,8 +30,11 @@ var DemoList = function (_React$Component) {
   _createClass(DemoList, [{
     key: 'render',
     value: function render() {
-      var _props$examples = this.props.examples;
+      var _props = this.props;
+      var _props$examples = _props.examples;
       var examples = _props$examples === undefined ? [] : _props$examples;
+      var _props$component = _props.component;
+      var component = _props$component === undefined ? null : _props$component;
 
       return _react2.default.createElement(
         'div',
@@ -50,7 +53,7 @@ var DemoList = function (_React$Component) {
               { key: f, style: { padding: '10px', fontSize: '16px' } },
               _react2.default.createElement(
                 'a',
-                { href: '/examples/' + f },
+                { href: component ? '/examples?component=' + component + '&name=' + f : '/examples?name=' + f },
                 f
               )
             );
