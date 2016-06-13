@@ -22,16 +22,16 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var DemoList = function (_React$Component) {
-  _inherits(DemoList, _React$Component);
+var Wrapper = function (_React$Component) {
+  _inherits(Wrapper, _React$Component);
 
-  function DemoList() {
-    _classCallCheck(this, DemoList);
+  function Wrapper() {
+    _classCallCheck(this, Wrapper);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(DemoList).apply(this, arguments));
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Wrapper).apply(this, arguments));
   }
 
-  _createClass(DemoList, [{
+  _createClass(Wrapper, [{
     key: 'render',
     value: function render() {
       var _props = this.props;
@@ -62,13 +62,13 @@ var DemoList = function (_React$Component) {
     }
   }]);
 
-  return DemoList;
+  return Wrapper;
 }(_react2.default.Component);
 
-DemoList.propTypes = {
+Wrapper.propTypes = {
   scripts: _react2.default.PropTypes.array,
   styles: _react2.default.PropTypes.array,
   content: _react2.default.PropTypes.string
 };
 
-exports.default = DemoList;
+exports.default = Wrapper;

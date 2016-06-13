@@ -96,68 +96,28 @@ function server(_config) {
     return files;
   }
 
-  function getPartials() {
-    var files = _glob2.default.sync(root + '/partials/**').filter(function (f) {
-      return (/\.(html)$/.test(f)
-      );
-    });
-    var partials = {};
-
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-      for (var _iterator = files[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var file = _step.value;
-
-        var name = filename(file);
-        var content = _fs2.default.readFileSync(file, 'utf-8');
-        partials[name] = content;
-      }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
-
-    return partials;
-  }
-
-  function getViews(itemList) {
-    var items = itemList.map(function (x) {
+  function getComponents(itemList) {
+    var components = itemList.map(function (x) {
       return {
         name: x.name,
-        url: '/components/?name=' + x.name,
-        examples: x.examples.map(function (name) {
-          return { name: name, url: '/examples/?component=' + x.name + '&name=' + name };
-        })
+        examples: x.examples
       };
     });
 
-    return { items: items };
+    return components;
   }
 
   function getItems(isGroup) {
     var items = [];
     if (isGroup) {
       var paths = _glob2.default.sync(tpldir + '/*/package.json');
-      var _iteratorNormalCompletion2 = true;
-      var _didIteratorError2 = false;
-      var _iteratorError2 = undefined;
+      var _iteratorNormalCompletion = true;
+      var _didIteratorError = false;
+      var _iteratorError = undefined;
 
       try {
         var _loop = function _loop() {
-          var p = _step2.value;
+          var p = _step.value;
 
           var pkg = require(p),
               examples = [],
@@ -183,20 +143,20 @@ function server(_config) {
           }
         };
 
-        for (var _iterator2 = paths[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
+        for (var _iterator = paths[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           _loop();
         }
       } catch (err) {
-        _didIteratorError2 = true;
-        _iteratorError2 = err;
+        _didIteratorError = true;
+        _iteratorError = err;
       } finally {
         try {
-          if (!_iteratorNormalCompletion2 && _iterator2.return) {
-            _iterator2.return();
+          if (!_iteratorNormalCompletion && _iterator.return) {
+            _iterator.return();
           }
         } finally {
-          if (_didIteratorError2) {
-            throw _iteratorError2;
+          if (_didIteratorError) {
+            throw _iteratorError;
           }
         }
       }
@@ -229,12 +189,10 @@ function server(_config) {
 
   router.get('/', function (req, res) {
     if (isGroup) {
-      var views = getViews(itemList),
-          partials = getPartials();
-
+      var components = getComponents(itemList);
       res.send(_html2.default.group({
-        views: views,
-        partials: partials
+        components: components,
+        title: pkg['name']
       }));
     } else {
       var _files = getExamples();
