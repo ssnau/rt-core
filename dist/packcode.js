@@ -23,12 +23,34 @@ var _webpackconfig2 = _interopRequireDefault(_webpackconfig);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function pack(filepath, pkg, root) {
+function pack(filepath, aliasInfo) {
   var alias = {};
-  if (pkg && root) {
-    alias[pkg.name + '$'] = _path2.default.join(root, 'src');
-    alias[pkg.name] = root;
+  var _iteratorNormalCompletion = true;
+  var _didIteratorError = false;
+  var _iteratorError = undefined;
+
+  try {
+    for (var _iterator = aliasInfo[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+      var pkg = _step.value;
+
+      alias[pkg.name + '$'] = _path2.default.join(pkg.path, 'src');
+      alias[pkg.name] = pkg.path;
+    }
+  } catch (err) {
+    _didIteratorError = true;
+    _iteratorError = err;
+  } finally {
+    try {
+      if (!_iteratorNormalCompletion && _iterator.return) {
+        _iterator.return();
+      }
+    } finally {
+      if (_didIteratorError) {
+        throw _iteratorError;
+      }
+    }
   }
+
   var webpackConfig = (0, _webpackconfig2.default)();
   webpackConfig.entry = { def: filepath };
   webpackConfig.cache = true;

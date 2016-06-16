@@ -52,12 +52,13 @@ var getNodeProjectRoot = _common2.default.getNodeProjectRoot;
 var getRc = _common2.default.getRc;
 var safe = _common2.default.safe;
 var example = _html2.default.example;
+var page = _html2.default.page;
 
 exports.default = function () {
   var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(_config) {
     var _this = this;
 
-    var cwd, root, config, exname, builddir, pkg, exdir, getExamples, filename, escapeScript, minifyScript, basedir, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _loop, _iterator, _step;
+    var cwd, root, config, builddir, exdir, isGroup, pkg, tpldir, getItems, getExamples, filename, escapeScript, minifyScript, itemList, polyfillcode, hljscss, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, item, _basedir, _pkg, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _loop2, _iterator3, _step3, basedir, aliasList, file, scriptcode, indexcss, contentHTML, htmlcontent, df;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -76,11 +77,89 @@ exports.default = function () {
             };
 
             getExamples = function getExamples() {
-              var files = _glob2.default.sync(exdir + '/**').filter(function (f) {
+              var files = _glob2.default.sync(tpldir + '/**').filter(function (f) {
                 return (/\.(js|jsx)$/.test(f)
                 );
               });
               return files;
+            };
+
+            getItems = function getItems(isGroup) {
+              var items = [];
+              if (isGroup) {
+                var paths = _glob2.default.sync(tpldir + '/*/package.json').filter(function (x) {
+                  return x.indexOf('node_modules') == -1;
+                });
+                var _iteratorNormalCompletion = true;
+                var _didIteratorError = false;
+                var _iteratorError = undefined;
+
+                try {
+                  var _loop = function _loop() {
+                    var p = _step.value;
+
+                    var pkg = require(p),
+                        examples = [],
+                        files = [];
+
+                    if (pkg['mt-group']) {
+                      var item_path = p.substr(0, p.indexOf('package.json'));
+
+                      _glob2.default.sync(item_path + '/examples/**').filter(function (f) {
+                        return (/\.(js|jsx)$/.test(f)
+                        );
+                      }).forEach(function (f) {
+                        examples.push(filename(f));
+                        files.push(f);
+                      });
+
+                      items.push({
+                        name: pkg['name'],
+                        path: p.substr(0, p.indexOf('package.json') - 1),
+                        examples: examples,
+                        files: files
+                      });
+                    }
+                  };
+
+                  for (var _iterator = paths[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    _loop();
+                  }
+                } catch (err) {
+                  _didIteratorError = true;
+                  _iteratorError = err;
+                } finally {
+                  try {
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                      _iterator.return();
+                    }
+                  } finally {
+                    if (_didIteratorError) {
+                      throw _iteratorError;
+                    }
+                  }
+                }
+              } else {
+                (function () {
+                  var paths = _glob2.default.sync(tpldir + '/**').filter(function (f) {
+                    return (/\.(js|jsx)$/.test(f)
+                    );
+                  });
+                  var examples = [],
+                      files = [];
+
+                  paths.forEach(function (f) {
+                    examples.push(filename(f)), files.push(f);
+                  });
+                  items.push({
+                    name: pkg['name'],
+                    path: root,
+                    examples: examples,
+                    files: files
+                  });
+                })();
+              }
+              return items;
             };
 
             cwd = process.cwd();
@@ -89,8 +168,9 @@ exports.default = function () {
 
             // consts
 
-            exname = config.dir || 'examples';
             builddir = config.builddir || 'build';
+            exdir = config.dir || '';
+            isGroup = config.group || false;
 
             /* eslint-disable global-require */
 
@@ -98,35 +178,51 @@ exports.default = function () {
 
             // var fs   = require('fs');
 
-            exdir = _path2.default.join(root, exname);
+            tpldir = _path2.default.join(root, exdir);
+            itemList = getItems(isGroup);
+            polyfillcode = _fs2.default.readFileSync(_path2.default.join(__dirname, '../../vendor/browser-polyfill.js'), 'utf-8');
+            hljscss = _fs2.default.readFileSync(_path2.default.join(__dirname, '../../vendor/hljs.css'), 'utf-8');
+            _iteratorNormalCompletion2 = true;
+            _didIteratorError2 = false;
+            _iteratorError2 = undefined;
+            _context2.prev = 19;
+            _iterator2 = itemList[Symbol.iterator]();
 
+          case 21:
+            if (_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done) {
+              _context2.next = 55;
+              break;
+            }
 
-            // try to make the folder first
-            basedir = _path2.default.join(root, builddir, 'examples');
-            _context2.next = 14;
-            return _child2.default.exec('mkdir -p ' + basedir, { $through: false, $silent: true });
+            item = _step2.value;
+            _basedir = _path2.default.join(item.path, builddir, 'examples');
+            _context2.next = 26;
+            return _child2.default.exec('mkdir -p ' + _basedir, { $through: false, $silent: true });
 
-          case 14:
-
+          case 26:
+            _pkg = require(_path2.default.join(item.path, 'package.json'));
             /* eslint-disable prefer-const */
-            _iteratorNormalCompletion = true;
-            _didIteratorError = false;
-            _iteratorError = undefined;
-            _context2.prev = 17;
-            _loop = regeneratorRuntime.mark(function _callee() {
-              var file, scriptcode, polyfillcode, hljscss, contentHTML, htmlcontent, df;
+
+            _iteratorNormalCompletion3 = true;
+            _didIteratorError3 = false;
+            _iteratorError3 = undefined;
+            _context2.prev = 30;
+            _loop2 = regeneratorRuntime.mark(function _callee() {
+              var file, aliasList, scriptcode, contentHTML, htmlcontent, df;
               return regeneratorRuntime.wrap(function _callee$(_context) {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      file = _step.value;
-                      _context.next = 3;
-                      return (0, _packcode2.default)(file, pkg, root);
+                      file = _step3.value;
+                      aliasList = [{
+                        name: item.name,
+                        path: item.path
+                      }];
+                      _context.next = 4;
+                      return (0, _packcode2.default)(file, aliasList);
 
-                    case 3:
+                    case 4:
                       scriptcode = _context.sent;
-                      polyfillcode = _fs2.default.readFileSync(_path2.default.join(__dirname, '../../vendor/browser-polyfill.js'), 'utf-8');
-                      hljscss = _fs2.default.readFileSync(_path2.default.join(__dirname, '../../vendor/hljs.css'), 'utf-8');
                       contentHTML = void 0;
                       /* eslint-disable no-unused-vars, no-return-assign */
 
@@ -135,81 +231,160 @@ exports.default = function () {
                       });
                       htmlcontent = example({
                         contentHTML: contentHTML,
-                        pkg: pkg,
+                        pkg: _pkg,
                         pagename: filename(file),
                         sourcecode: _highlight2.default.highlight('javascript', _fs2.default.readFileSync(file, 'utf-8')).value,
                         styles: [hljscss],
                         scripts: [{ content: escapeScript(minifyScript(polyfillcode).code) }, { content: escapeScript(minifyScript(scriptcode).code) }]
                       });
-                      df = _path2.default.join(basedir, filename(file) + '.html');
+                      df = _path2.default.join(_basedir, filename(file) + '.html');
                       /* eslint-disable no-console */
 
                       console.log('writing file ' + df);
-
                       _fs2.default.writeFileSync(df, htmlcontent, { encoding: 'utf-8' });
 
-                    case 12:
+                    case 11:
                     case 'end':
                       return _context.stop();
                   }
                 }
               }, _callee, _this);
             });
-            _iterator = getExamples()[Symbol.iterator]();
+            _iterator3 = item.files[Symbol.iterator]();
 
-          case 20:
-            if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-              _context2.next = 25;
+          case 33:
+            if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
+              _context2.next = 38;
               break;
             }
 
-            return _context2.delegateYield(_loop(), 't0', 22);
+            return _context2.delegateYield(_loop2(), 't0', 35);
 
-          case 22:
-            _iteratorNormalCompletion = true;
-            _context2.next = 20;
+          case 35:
+            _iteratorNormalCompletion3 = true;
+            _context2.next = 33;
             break;
-
-          case 25:
-            _context2.next = 31;
-            break;
-
-          case 27:
-            _context2.prev = 27;
-            _context2.t1 = _context2['catch'](17);
-            _didIteratorError = true;
-            _iteratorError = _context2.t1;
-
-          case 31:
-            _context2.prev = 31;
-            _context2.prev = 32;
-
-            if (!_iteratorNormalCompletion && _iterator.return) {
-              _iterator.return();
-            }
-
-          case 34:
-            _context2.prev = 34;
-
-            if (!_didIteratorError) {
-              _context2.next = 37;
-              break;
-            }
-
-            throw _iteratorError;
-
-          case 37:
-            return _context2.finish(34);
 
           case 38:
-            return _context2.finish(31);
+            _context2.next = 44;
+            break;
 
-          case 39:
+          case 40:
+            _context2.prev = 40;
+            _context2.t1 = _context2['catch'](30);
+            _didIteratorError3 = true;
+            _iteratorError3 = _context2.t1;
+
+          case 44:
+            _context2.prev = 44;
+            _context2.prev = 45;
+
+            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+              _iterator3.return();
+            }
+
+          case 47:
+            _context2.prev = 47;
+
+            if (!_didIteratorError3) {
+              _context2.next = 50;
+              break;
+            }
+
+            throw _iteratorError3;
+
+          case 50:
+            return _context2.finish(47);
+
+          case 51:
+            return _context2.finish(44);
+
+          case 52:
+            _iteratorNormalCompletion2 = true;
+            _context2.next = 21;
+            break;
+
+          case 55:
+            _context2.next = 61;
+            break;
+
+          case 57:
+            _context2.prev = 57;
+            _context2.t2 = _context2['catch'](19);
+            _didIteratorError2 = true;
+            _iteratorError2 = _context2.t2;
+
+          case 61:
+            _context2.prev = 61;
+            _context2.prev = 62;
+
+            if (!_iteratorNormalCompletion2 && _iterator2.return) {
+              _iterator2.return();
+            }
+
+          case 64:
+            _context2.prev = 64;
+
+            if (!_didIteratorError2) {
+              _context2.next = 67;
+              break;
+            }
+
+            throw _iteratorError2;
+
+          case 67:
+            return _context2.finish(64);
+
+          case 68:
+            return _context2.finish(61);
+
+          case 69:
+            if (!isGroup) {
+              _context2.next = 85;
+              break;
+            }
+
+            basedir = _path2.default.join(root, builddir, 'homepage');
+            _context2.next = 73;
+            return _child2.default.exec('mkdir -p ' + basedir, { $through: false, $silent: true });
+
+          case 73:
+            aliasList = itemList.map(function (x) {
+              return { name: x.name, path: x.path };
+            });
+            file = _path2.default.join(root, 'homepage', 'index.js');
+            _context2.next = 77;
+            return (0, _packcode2.default)(file, aliasList);
+
+          case 77:
+            scriptcode = _context2.sent;
+            indexcss = _fs2.default.readFileSync(_path2.default.join(root, 'homepage', 'index.css'), 'utf-8');
+            contentHTML = void 0;
+            /* eslint-disable no-unused-vars, no-return-assign */
+
+            safe(function (__) {
+              return contentHTML = _fs2.default.readFileSync(file.replace(/(js|jsx)$/, 'html'), 'utf-8');
+            });
+            htmlcontent = page({
+              contentHTML: contentHTML,
+              pkg: pkg,
+              pagename: filename(file),
+              sourcecode: _highlight2.default.highlight('javascript', _fs2.default.readFileSync(file, 'utf-8')).value,
+              styles: [hljscss, indexcss],
+              scripts: [{ content: escapeScript(minifyScript(polyfillcode).code) }, { content: escapeScript(minifyScript(scriptcode).code) }]
+            });
+            df = _path2.default.join(basedir, 'index.html');
+            /* eslint-disable no-console */
+
+            console.log('writing file ' + df);
+            _fs2.default.writeFileSync(df, htmlcontent, { encoding: 'utf-8' });
+
+          case 85:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, this, [[17, 27, 31, 39], [32,, 34, 38]]);
+    }, _callee2, this, [[19, 57, 61, 69], [30, 40, 44, 52], [45,, 47, 51], [62,, 64, 68]]);
   }));
 
   function build(_x) {

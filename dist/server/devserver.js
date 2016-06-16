@@ -73,6 +73,8 @@ exports.default = {
     var port = _ref.port;
     var root = _ref.root;
     var rtconfig = _ref.rtconfig;
+    var _ref$entries = _ref.entries;
+    var entries = _ref$entries === undefined ? {} : _ref$entries;
     var _ref$items = _ref.items;
     var items = _ref$items === undefined ? [] : _ref$items;
 
@@ -110,7 +112,7 @@ exports.default = {
     }
 
     var hotPrefix = [require.resolve('webpack-hot-middleware/client') + ('?path=' + this.baseURL + '/__webpack_hmr')];
-    var entries = this.getEntries(tpldir, items);
+    entries = _lodash2.default.merge(entries, this.getEntries(tpldir, items));
     Object.keys(entries).forEach(function (key) {
       entries[key] = hotPrefix.concat(entries[key]);
     });

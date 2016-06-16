@@ -51,5 +51,10 @@ exports.default = {
     var props = opt || {};
     var content = _server2.default.renderToStaticMarkup(_react2.default.createElement(_DemoGroup2.default, props));
     return html(content, props);
+  },
+  page: function page(opt) {
+    var props = opt || {};
+    var content = props.contentHTML;
+    return html(content, props);
   }
 };
