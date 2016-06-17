@@ -50,6 +50,7 @@ var getRc = _common2.default.getRc;
 var safe = _common2.default.safe;
 var example = _html2.default.example;
 var list = _html2.default.list;
+var page = _html2.default.page;
 
 /**
  * @param {{dir: string,
@@ -72,6 +73,10 @@ function server(_config) {
   var app = (0, _express2.default)();
   var tpldir = _path2.default.join(root, exdir);
   var itemList = getItems(isGroup);
+  var entries = {};
+  if (isGroup) {
+    entries['homepage/index'] = _path2.default.join(root, 'homepage/index.js');
+  }
 
   _devserver2.default.getMiddlewares({
     rtconfig: config,
@@ -79,6 +84,7 @@ function server(_config) {
     port: port,
     root: root,
     pkg: pkg,
+    entries: entries,
     items: itemList
   }).forEach(function (x) {
     return app.use(x);
@@ -279,6 +285,41 @@ function server(_config) {
       examples: item.examples,
       title: 'examples',
       component: itemName
+    }));
+
+    return;
+  });
+
+  router.get('/homepage/', function (req, res) {
+
+    var fp = void 0,
+        contentHTML = void 0,
+        tfp = void 0,
+        jsPath = void 0,
+        pkgInfo = pkg;
+
+    tfp = _path2.default.join(root, 'homepage', 'index');
+    pkgInfo = require(_path2.default.join(root, '/package.json'));
+
+    if (_fs2.default.existsSync(tfp + '.js')) fp = tfp + '.js';
+    if (_fs2.default.existsSync(tfp + '.jsx')) fp = tfp + '.jsx';
+
+    jsPath = _devserver2.default.getURL(fp).replace('\/..\/', '\/');
+    /* eslint-disable no-unused-vars, no-return-assign */
+    safe(function (__) {
+      return contentHTML = _fs2.default.readFileSync(tfp + '.html', 'utf-8');
+    });
+
+    var content = _fs2.default.readFileSync(fp, 'utf-8');
+    var indexcss = _fs2.default.readFileSync(_path2.default.join(root, 'homepage', 'index.css'), 'utf-8');
+    res.send(_html2.default.page({
+      pkg: pkgInfo,
+      contentHTML: contentHTML,
+      pagename: '',
+      styles: ['/hljs.css', indexcss],
+      scripts: [{ src: '/browser-polyfill.js' }, { src: jsPath }],
+      title: pkgInfo.name,
+      sourcecode: _highlight2.default.highlight('javascript', content).value
     }));
 
     return;
