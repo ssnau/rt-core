@@ -53,7 +53,9 @@ var getRc = _common2.default.getRc;
 var safe = _common2.default.safe;
 
 exports.default = function () {
-    var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(_config) {
+    var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        var _config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
         var cwd, root, dir, version, pkgs, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, x, msg;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -69,7 +71,7 @@ exports.default = function () {
                         }).map(function (x) {
                             var groupName = require(x)["mt-group"];
                             if (groupName) {
-                                var direct = x.replace('\/package.json', '');
+                                var direct = _path2.default.dirname(x);
                                 var name = require(x)["name"];
                                 var version = require(x)["version"];
                                 return {

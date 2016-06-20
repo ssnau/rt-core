@@ -75,7 +75,13 @@ function server(_config) {
   var itemList = getItems(isGroup);
   var entries = {};
   if (isGroup) {
-    entries['homepage/index'] = _path2.default.join(root, 'homepage/index.js');
+    var files = _glob2.default.sync(root + '/homepage/**').filter(function (f) {
+      return (/\.(js|jsx)$/.test(f)
+      );
+    }).forEach(function (f) {
+      var name = _path2.default.relative(root, f).replace(/(.js|.jsx)$/, '');;
+      entries[name] = f;
+    });
   }
 
   _devserver2.default.getMiddlewares({
@@ -290,36 +296,46 @@ function server(_config) {
     return;
   });
 
-  router.get('/homepage/', function (req, res) {
-
+  router.get(['/homepage/:name', '/homepage'], function (req, res) {
     var fp = void 0,
         contentHTML = void 0,
         tfp = void 0,
-        jsPath = void 0,
+        cfp = void 0,
+        scripts = [],
         pkgInfo = pkg;
+    var name = req.params.name == null ? 'index' : req.params.name;
 
-    tfp = _path2.default.join(root, 'homepage', 'index');
+    tfp = _path2.default.join(root, 'homepage', name);
     pkgInfo = require(_path2.default.join(root, '/package.json'));
+    scripts.push({ src: '/browser-polyfill.js' });
 
     if (_fs2.default.existsSync(tfp + '.js')) fp = tfp + '.js';
     if (_fs2.default.existsSync(tfp + '.jsx')) fp = tfp + '.jsx';
+    if (fp != null) {
+      var jsPath = _devserver2.default.getURL(fp).replace('\/..\/', '\/');
+      scripts.push({ src: jsPath });
+    }
+    if (_fs2.default.existsSync(tfp + '.html')) {
+      /* eslint-disable no-unused-vars, no-return-assign */
+      safe(function (__) {
+        return contentHTML = _fs2.default.readFileSync(tfp + '.html', 'utf-8');
+      });
+    } else {
+      /* eslint-disable no-unused-vars, no-return-assign */
+      safe(function (__) {
+        return contentHTML = '<div id="container-wrap"></div>';
+      }, 'utf-8');
+    }
 
-    jsPath = _devserver2.default.getURL(fp).replace('\/..\/', '\/');
-    /* eslint-disable no-unused-vars, no-return-assign */
-    safe(function (__) {
-      return contentHTML = _fs2.default.readFileSync(tfp + '.html', 'utf-8');
-    });
+    var indexcss = _fs2.default.existsSync(tfp + '.css') ? _fs2.default.readFileSync(tfp + '.css', 'utf-8') : '';
 
-    var content = _fs2.default.readFileSync(fp, 'utf-8');
-    var indexcss = _fs2.default.readFileSync(_path2.default.join(root, 'homepage', 'index.css'), 'utf-8');
     res.send(_html2.default.page({
       pkg: pkgInfo,
       contentHTML: contentHTML,
       pagename: '',
       styles: ['/hljs.css', indexcss],
-      scripts: [{ src: '/browser-polyfill.js' }, { src: jsPath }],
-      title: pkgInfo.name,
-      sourcecode: _highlight2.default.highlight('javascript', content).value
+      scripts: scripts,
+      title: pkgInfo.name
     }));
 
     return;
