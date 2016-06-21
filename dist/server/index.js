@@ -79,8 +79,10 @@ function server(_config) {
       return (/\.(js|jsx)$/.test(f)
       );
     }).forEach(function (f) {
-      var name = _path2.default.relative(root, f).replace(/(.js|.jsx)$/, '');;
-      entries[name] = f;
+      if (filename(f)[0] !== '_') {
+        var name = _path2.default.relative(root, f).replace(/(.js|.jsx)$/, '');
+        entries[name] = f;
+      }
     });
   }
 
@@ -304,6 +306,7 @@ function server(_config) {
         scripts = [],
         pkgInfo = pkg;
     var name = req.params.name == null ? 'index' : req.params.name;
+    name = name.replace(/\.html$/, '');
 
     tfp = _path2.default.join(root, 'homepage', name);
     pkgInfo = require(_path2.default.join(root, '/package.json'));
