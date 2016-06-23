@@ -53,7 +53,7 @@ exports.default = function () {
                         }).map(function (x) {
                             var groupName = require(x)["mt-group"];
                             if (groupName) {
-                                var direct = x.replace('\/package.json', '');
+                                var direct = _path2.default.dirname(x);
                                 var version = require(x)["version"];
                                 var name = require(x)["name"];
                                 return {

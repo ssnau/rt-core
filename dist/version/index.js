@@ -53,8 +53,10 @@ var getRc = _common2.default.getRc;
 var safe = _common2.default.safe;
 
 exports.default = function () {
-    var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee(_config) {
-        var cwd, root, dir, version, pkgs, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, x, msg;
+    var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee() {
+        var _config = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+        var cwd, root, dir, pkg, version, pkgs, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, x, msg;
 
         return regeneratorRuntime.wrap(function _callee$(_context) {
             while (1) {
@@ -63,13 +65,14 @@ exports.default = function () {
                         cwd = process.cwd();
                         root = getNodeProjectRoot(cwd);
                         dir = _config.dir || '';
-                        version = _config.version || 'patch';
+                        pkg = require(root + '/package.json');
+                        version = pkg.version;
                         pkgs = _glob2.default.sync(_path2.default.join(root, dir) + '/*/package.json').filter(function (x) {
                             return x.indexOf('node_modules') == -1;
                         }).map(function (x) {
-                            var groupName = require(x)["mt-group"];
-                            if (groupName) {
-                                var direct = x.replace('\/package.json', '');
+                            var pkg = require(x);
+                            if (pkg["mt-group"]) {
+                                var direct = _path2.default.dirname(x);
                                 var name = require(x)["name"];
                                 var version = require(x)["version"];
                                 return {
@@ -82,78 +85,78 @@ exports.default = function () {
                         _iteratorNormalCompletion = true;
                         _didIteratorError = false;
                         _iteratorError = undefined;
-                        _context.prev = 8;
+                        _context.prev = 9;
                         _iterator = pkgs[Symbol.iterator]();
 
-                    case 10:
+                    case 11:
                         if (_iteratorNormalCompletion = (_step = _iterator.next()).done) {
-                            _context.next = 19;
+                            _context.next = 20;
                             break;
                         }
 
                         x = _step.value;
-                        _context.next = 14;
+                        _context.next = 15;
                         return _child2.default.exec('cd ' + x.direct + ' && npm version ' + version, { $through: false });
 
-                    case 14:
+                    case 15:
                         msg = _context.sent;
 
                         console.log(x.name + ' ' + msg.out);
 
-                    case 16:
+                    case 17:
                         _iteratorNormalCompletion = true;
-                        _context.next = 10;
+                        _context.next = 11;
                         break;
 
-                    case 19:
-                        _context.next = 25;
+                    case 20:
+                        _context.next = 26;
                         break;
 
-                    case 21:
-                        _context.prev = 21;
-                        _context.t0 = _context['catch'](8);
+                    case 22:
+                        _context.prev = 22;
+                        _context.t0 = _context['catch'](9);
                         _didIteratorError = true;
                         _iteratorError = _context.t0;
 
-                    case 25:
-                        _context.prev = 25;
+                    case 26:
                         _context.prev = 26;
+                        _context.prev = 27;
 
                         if (!_iteratorNormalCompletion && _iterator.return) {
                             _iterator.return();
                         }
 
-                    case 28:
-                        _context.prev = 28;
+                    case 29:
+                        _context.prev = 29;
 
                         if (!_didIteratorError) {
-                            _context.next = 31;
+                            _context.next = 32;
                             break;
                         }
 
                         throw _iteratorError;
 
-                    case 31:
-                        return _context.finish(28);
-
                     case 32:
-                        return _context.finish(25);
+                        return _context.finish(29);
 
                     case 33:
-                        _context.next = 35;
+                        return _context.finish(26);
+
+                    case 34:
+                        _context.next = 36;
                         return _child2.default.exec('cd ' + root + ' && git add .');
 
-                    case 35:
+                    case 36:
                     case 'end':
                         return _context.stop();
                 }
             }
-        }, _callee, this, [[8, 21, 25, 33], [26,, 28, 32]]);
+        }, _callee, this, [[9, 22, 26, 34], [27,, 29, 33]]);
     }));
 
-    function publish(_x) {
+    function version(_x) {
         return ref.apply(this, arguments);
     }
 
-    return publish;
+    return version;
 }();

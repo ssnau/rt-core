@@ -58,7 +58,7 @@ exports.default = function () {
   var ref = _asyncToGenerator(regeneratorRuntime.mark(function _callee2(_config) {
     var _this = this;
 
-    var cwd, root, config, builddir, exdir, isGroup, pkg, tpldir, getItems, getExamples, filename, escapeScript, minifyScript, itemList, polyfillcode, hljscss, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, item, _basedir, _pkg, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _loop2, _iterator3, _step3, basedir, aliasList, file, scriptcode, indexcss, contentHTML, htmlcontent, df;
+    var cwd, root, config, builddir, exdir, isGroup, pkg, tpldir, getItems, getExamples, filename, escapeScript, minifyScript, itemList, polyfillcode, hljscss, _iteratorNormalCompletion2, _didIteratorError2, _iteratorError2, _iterator2, _step2, item, _basedir, _pkg, _iteratorNormalCompletion4, _didIteratorError4, _iteratorError4, _loop2, _iterator4, _step4, basedir, aliasList, _files, _iteratorNormalCompletion3, _didIteratorError3, _iteratorError3, _iterator3, _step3, f, jsFile, cssCode, jsCode, contentHTML, htmlcontent, df;
 
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
@@ -203,9 +203,9 @@ exports.default = function () {
             _pkg = require(_path2.default.join(item.path, 'package.json'));
             /* eslint-disable prefer-const */
 
-            _iteratorNormalCompletion3 = true;
-            _didIteratorError3 = false;
-            _iteratorError3 = undefined;
+            _iteratorNormalCompletion4 = true;
+            _didIteratorError4 = false;
+            _iteratorError4 = undefined;
             _context2.prev = 30;
             _loop2 = regeneratorRuntime.mark(function _callee() {
               var file, aliasList, scriptcode, contentHTML, htmlcontent, df;
@@ -213,7 +213,7 @@ exports.default = function () {
                 while (1) {
                   switch (_context.prev = _context.next) {
                     case 0:
-                      file = _step3.value;
+                      file = _step4.value;
                       aliasList = [{
                         name: item.name,
                         path: item.path
@@ -250,10 +250,10 @@ exports.default = function () {
                 }
               }, _callee, _this);
             });
-            _iterator3 = item.files[Symbol.iterator]();
+            _iterator4 = item.files[Symbol.iterator]();
 
           case 33:
-            if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
+            if (_iteratorNormalCompletion4 = (_step4 = _iterator4.next()).done) {
               _context2.next = 38;
               break;
             }
@@ -261,7 +261,7 @@ exports.default = function () {
             return _context2.delegateYield(_loop2(), 't0', 35);
 
           case 35:
-            _iteratorNormalCompletion3 = true;
+            _iteratorNormalCompletion4 = true;
             _context2.next = 33;
             break;
 
@@ -272,26 +272,26 @@ exports.default = function () {
           case 40:
             _context2.prev = 40;
             _context2.t1 = _context2['catch'](30);
-            _didIteratorError3 = true;
-            _iteratorError3 = _context2.t1;
+            _didIteratorError4 = true;
+            _iteratorError4 = _context2.t1;
 
           case 44:
             _context2.prev = 44;
             _context2.prev = 45;
 
-            if (!_iteratorNormalCompletion3 && _iterator3.return) {
-              _iterator3.return();
+            if (!_iteratorNormalCompletion4 && _iterator4.return) {
+              _iterator4.return();
             }
 
           case 47:
             _context2.prev = 47;
 
-            if (!_didIteratorError3) {
+            if (!_didIteratorError4) {
               _context2.next = 50;
               break;
             }
 
-            throw _iteratorError3;
+            throw _iteratorError4;
 
           case 50:
             return _context2.finish(47);
@@ -340,7 +340,7 @@ exports.default = function () {
 
           case 69:
             if (!isGroup) {
-              _context2.next = 85;
+              _context2.next = 115;
               break;
             }
 
@@ -352,39 +352,119 @@ exports.default = function () {
             aliasList = itemList.map(function (x) {
               return { name: x.name, path: x.path };
             });
-            file = _path2.default.join(root, 'homepage', 'index.js');
-            _context2.next = 77;
-            return (0, _packcode2.default)(file, aliasList);
+            _files = _lodash2.default.uniq(_glob2.default.sync(root + '/homepage/**').filter(function (f) {
+              return (/\.(js|jsx|html)$/.test(f)
+              );
+            }).filter(function (f) {
+              return filename(f)[0] !== '_';
+            }).map(function (f) {
+              return f.replace(/\.(js|jsx|html)$/, '');
+            }));
+            _iteratorNormalCompletion3 = true;
+            _didIteratorError3 = false;
+            _iteratorError3 = undefined;
+            _context2.prev = 78;
+            _iterator3 = _files[Symbol.iterator]();
 
-          case 77:
-            scriptcode = _context2.sent;
-            indexcss = _fs2.default.readFileSync(_path2.default.join(root, 'homepage', 'index.css'), 'utf-8');
+          case 80:
+            if (_iteratorNormalCompletion3 = (_step3 = _iterator3.next()).done) {
+              _context2.next = 101;
+              break;
+            }
+
+            f = _step3.value;
+            jsFile = _fs2.default.existsSync(f + '.js') ? f + '.js' : f + '.jsx';
+            cssCode = _fs2.default.existsSync(f + '.css') ? _fs2.default.readFileSync(f + '.css', 'utf-8') : '';
+
+            if (!_fs2.default.existsSync(jsFile)) {
+              _context2.next = 90;
+              break;
+            }
+
+            _context2.next = 87;
+            return (0, _packcode2.default)(f, aliasList);
+
+          case 87:
+            _context2.t3 = _context2.sent;
+            _context2.next = 91;
+            break;
+
+          case 90:
+            _context2.t3 = '';
+
+          case 91:
+            jsCode = _context2.t3;
             contentHTML = void 0;
-            /* eslint-disable no-unused-vars, no-return-assign */
 
-            safe(function (__) {
-              return contentHTML = _fs2.default.readFileSync(file.replace(/(js|jsx)$/, 'html'), 'utf-8');
-            });
+            if (_fs2.default.existsSync(f + '.html')) {
+              /* eslint-disable no-unused-vars, no-return-assign */
+              safe(function (__) {
+                return contentHTML = _fs2.default.readFileSync(f + '.html', 'utf-8');
+              });
+            } else {
+              /* eslint-disable no-unused-vars, no-return-assign */
+              safe(function (__) {
+                return contentHTML = '<div id="container-wrap"></div>';
+              }, 'utf-8');
+            }
             htmlcontent = page({
               contentHTML: contentHTML,
               pkg: pkg,
-              pagename: filename(file),
-              sourcecode: _highlight2.default.highlight('javascript', _fs2.default.readFileSync(file, 'utf-8')).value,
-              styles: [hljscss, indexcss],
-              scripts: [{ content: escapeScript(minifyScript(polyfillcode).code) }, { content: escapeScript(minifyScript(scriptcode).code) }]
+              pagename: filename(f),
+              styles: [hljscss, cssCode],
+              scripts: [{ content: escapeScript(minifyScript(polyfillcode).code) }, { content: escapeScript(minifyScript(jsCode).code) }]
             });
-            df = _path2.default.join(basedir, 'index.html');
+            df = _path2.default.join(basedir, filename(f) + '.html');
             /* eslint-disable no-console */
 
             console.log('writing file ' + df);
             _fs2.default.writeFileSync(df, htmlcontent, { encoding: 'utf-8' });
 
-          case 85:
+          case 98:
+            _iteratorNormalCompletion3 = true;
+            _context2.next = 80;
+            break;
+
+          case 101:
+            _context2.next = 107;
+            break;
+
+          case 103:
+            _context2.prev = 103;
+            _context2.t4 = _context2['catch'](78);
+            _didIteratorError3 = true;
+            _iteratorError3 = _context2.t4;
+
+          case 107:
+            _context2.prev = 107;
+            _context2.prev = 108;
+
+            if (!_iteratorNormalCompletion3 && _iterator3.return) {
+              _iterator3.return();
+            }
+
+          case 110:
+            _context2.prev = 110;
+
+            if (!_didIteratorError3) {
+              _context2.next = 113;
+              break;
+            }
+
+            throw _iteratorError3;
+
+          case 113:
+            return _context2.finish(110);
+
+          case 114:
+            return _context2.finish(107);
+
+          case 115:
           case 'end':
             return _context2.stop();
         }
       }
-    }, _callee2, this, [[19, 57, 61, 69], [30, 40, 44, 52], [45,, 47, 51], [62,, 64, 68]]);
+    }, _callee2, this, [[19, 57, 61, 69], [30, 40, 44, 52], [45,, 47, 51], [62,, 64, 68], [78, 103, 107, 115], [108,, 110, 114]]);
   }));
 
   function build(_x) {
